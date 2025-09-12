@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand tokens (for non-TW areas) */
+:root{
+  --brand:#f97316;
+  --brand-2:#ea580c;
+}
+
+/* base */
+html { scroll-behavior: smooth }
+body { @apply text-gray-900 bg-white antialiased }
+.container { @apply mx-auto max-w-[1100px] px-4 }
+
+/* buttons */
+.btn { @apply inline-flex items-center justify-center rounded-full font-bold transition-transform border; }
+.btn:hover { transform: translateY(-1px) }
+.btn-cta { @apply text-white border-transparent; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+.btn-outline { @apply bg-white text-[color:var(--brand-2)] border-2 border-[color:var(--brand-2)] }
+
+/* cards */
+.card { @apply bg-white border border-gray-200 rounded-2xl shadow-soft overflow-hidden }
+.card-body { @apply p-4 sm:p-5 }
+
+/* misc */
+.section { @apply py-16 }
+.section-alt { @apply py-16 bg-orange-50 }
+.section-head { @apply text-center mb-7 }
+.muted { @apply text-gray-500 }
+
+/* AOS animations */
+@import 'aos/dist/aos.css';
+
