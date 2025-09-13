@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 // optional helper to fetch tours if you need price
@@ -12,7 +12,34 @@ async function getTours() {
 
 type Contact = { name: string; email: string; phone: string };
 
+// ---- Wrapper adds Suspense so useSearchParams is safe in production/Vercel
 export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<MainSkeleton />}>
+      <CheckoutPageInner />
+    </Suspense>
+  );
+}
+
+function MainSkeleton() {
+  return (
+    <main className="container" style={{ padding: "32px 0" }}>
+      <h1 className="text-3xl font-extrabold mb-2">Checkout</h1>
+      <p className="muted mb-4">Loading selection…</p>
+      <div className="card max-w-xl">
+        <div className="card-body space-y-4">
+          <div className="h-6 w-40 rounded bg-black/10" />
+          <div className="h-10 w-full rounded bg-black/10" />
+          <div className="h-10 w-full rounded bg-black/10" />
+          <div className="h-10 w-full rounded bg-black/10" />
+          <div className="h-10 w-full rounded bg-black/10" />
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function CheckoutPageInner() {
   const sp = useSearchParams();
   const router = useRouter();
 
@@ -44,17 +71,18 @@ export default function CheckoutPage() {
   useEffect(() => {
     try {
       const fromStore = localStorage.getItem("checkout_contact");
+      const parsed = fromStore ? JSON.parse(fromStore) : {};
       const init: Contact = {
-        name: sp.get("name") || (fromStore ? JSON.parse(fromStore).name : "") || "",
-        email: sp.get("email") || (fromStore ? JSON.parse(fromStore).email : "") || "",
-        phone: sp.get("phone") || (fromStore ? JSON.parse(fromStore).phone : "") || "",
+        name: sp.get("name") || parsed.name || "",
+        email: sp.get("email") || parsed.email || "",
+        phone: sp.get("phone") || parsed.phone || "",
       };
       setContact(init);
     } catch {
       /* ignore */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // run once on mount
 
   // persist contact as user types
   useEffect(() => {
@@ -98,7 +126,6 @@ export default function CheckoutPage() {
         orderNo: `book-${Date.now()}`,
         returnPath: "/checkout/result",
         backPath: "/booking",
-        // attach contact so your backend can create a booking/lead record
         customer: {
           name: contact.name.trim(),
           email: contact.email.trim(),
@@ -113,11 +140,9 @@ export default function CheckoutPage() {
       return;
     }
 
-    // keep order + contact so /checkout/result can reconcile later
     sessionStorage.setItem("fomo_last_order_id", data.orderId);
     sessionStorage.setItem("fomo_contact", JSON.stringify(contact));
 
-    // redirect to FOMO hosted page
     window.location.href = data.url;
   }
 
