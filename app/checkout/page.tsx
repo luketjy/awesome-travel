@@ -10,7 +10,7 @@ const API = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
 
 // optional helper to fetch tours if you need price
 async function getTours() {
-  const r = await fetch(`${API}/api/tours`, { cache: "no-store" });
+  const r = await fetch(`${API}/tours`, { cache: "no-store" });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
@@ -128,7 +128,7 @@ function CheckoutPageInner() {
     pickup?: string | null;
     notes?: string | null;
   }) {
-    const r = await fetch(`${API}/api/bookings/hold`, {
+    const r = await fetch(`${API}/bookings/hold`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(args),
@@ -156,7 +156,7 @@ function CheckoutPageInner() {
       const bookingId = hold.booking_id;
 
       // 2) Create FOMO order, linking it to that booking
-      const r = await fetch(`${API}/api/payments/fomopay/create`, {
+      const r = await fetch(`${API}/payments/fomopay/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
