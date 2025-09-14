@@ -3,14 +3,17 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
+type Contact = { name: string; email: string; phone: string };
+
+// ---- use your Express API base everywhere (set NEXT_PUBLIC_API_URL in frontend env)
+const API = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+
 // optional helper to fetch tours if you need price
 async function getTours() {
-  const r = await fetch("/api/tours", { cache: "no-store" });
+  const r = await fetch(`${API}/api/tours`, { cache: "no-store" });
   if (!r.ok) throw new Error(await r.text());
   return r.json();
 }
-
-type Contact = { name: string; email: string; phone: string };
 
 // ---- Wrapper adds Suspense so useSearchParams is safe in production/Vercel
 export default function CheckoutPage() {
@@ -93,8 +96,9 @@ function CheckoutPageInner() {
     }
   }, [contact]);
 
+  // fetch tour price if not passed
   useEffect(() => {
-    // fetch tour price if not passed
+    if (!tourId) return;
     getTours()
       .then((tours) => {
         const t = tours.find((x: any) => x.id === tourId);
@@ -112,38 +116,75 @@ function CheckoutPageInner() {
     return Object.keys(e).length === 0;
   }
 
+  // ------ helper: create HOLD on backend (returns booking_id)
+  async function createHold(args: {
+    tour_id: number;
+    timeslot_id: number;
+    group_size: number;
+    customer_name: string;
+    email: string;
+    phone: string;
+    country?: string | null;
+    pickup?: string | null;
+    notes?: string | null;
+  }) {
+    const r = await fetch(`${API}/api/bookings/hold`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(args),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json() as Promise<{ ok: true; booking_id: number; hold_expires_in_sec: number }>;
+  }
+
   async function onPay() {
     if (!validateNow() || !total) return;
 
-    const r = await fetch("/api/payments/fomopay/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: total,
-        currency: "SGD",
-        subject: `Tour #${tourId} x ${qty}`,
-        description: `${date} ${time} (slot ${slotId})`,
-        orderNo: `book-${Date.now()}`,
-        returnPath: "/checkout/result",
-        backPath: "/booking",
-        customer: {
-          name: contact.name.trim(),
-          email: contact.email.trim(),
-          phone: contact.phone.trim(),
-        },
-      }),
-    });
+    try {
+      // 1) Create HOLD booking first
+      const hold = await createHold({
+        tour_id: tourId,
+        timeslot_id: slotId,
+        group_size: qty,
+        customer_name: contact.name.trim(),
+        email: contact.email.trim(),
+        phone: contact.phone.trim(),
+        country: null,
+        pickup: null,
+        notes: null,
+      });
+      const bookingId = hold.booking_id;
 
-    const data = await r.json();
-    if (!r.ok) {
-      alert(data?.error || "Create order failed");
-      return;
+      // 2) Create FOMO order, linking it to that booking
+      const r = await fetch(`${API}/api/payments/fomopay/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: total,
+          currency: "SGD",
+          subject: `Tour #${tourId} x ${qty}`,
+          description: `${date} ${time} (slot ${slotId})`,
+          orderNo: `booking-${bookingId}`, // <-- critical: lets webhook find the booking
+          returnPath: "/checkout/result",
+          backPath: "/booking",
+        }),
+      });
+
+      const data = await r.json();
+      if (!r.ok) {
+        alert(data?.error || "Create order failed");
+        return;
+      }
+
+      // 3) Store IDs for result page + fallback confirm
+      sessionStorage.setItem("fomo_last_order_id", data.orderId);
+      sessionStorage.setItem("booking_id", String(bookingId));
+
+      // redirect to FOMO hosted payment page
+      window.location.href = data.url;
+    } catch (err: any) {
+      alert(err?.message || "Payment initialisation failed");
     }
-
-    sessionStorage.setItem("fomo_last_order_id", data.orderId);
-    sessionStorage.setItem("fomo_contact", JSON.stringify(contact));
-
-    window.location.href = data.url;
   }
 
   return (
