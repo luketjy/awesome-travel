@@ -1,23 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const contactRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+  const [contactH, setContactH] = useState(0);
+  const [mainH, setMainH] = useState(0);
+
+  // Measure heights (on load + resize) so the second bar sits right below the first
+  useLayoutEffect(() => {
+    const measure = () => {
+      setContactH(contactRef.current?.offsetHeight ?? 0);
+      setMainH(mainRef.current?.offsetHeight ?? 0);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    window.addEventListener("orientationchange", measure);
+    return () => {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("orientationchange", measure);
+    };
   }, []);
 
   return (
     <>
-      {/* Top contact strip (always visible) */}
-      <div className="sticky top-0 z-50 bg-pink-200/90 backdrop-blur-md border-b h-8">
-        <div className="container flex flex-wrap items-center gap-x-6 gap-y-1 h-full text-[13px] sm:text-sm text-gray-800">
+      {/* Top contact strip — FIXED */}
+      <div
+        ref={contactRef}
+        className="fixed top-0 left-0 right-0 z-50 bg-pink-200/90 backdrop-blur-md border-b"
+      >
+        <div
+          className="
+            container
+            flex flex-col sm:flex-row
+            sm:items-center sm:justify-start
+            gap-x-6 gap-y-1
+            py-1.5
+            text-[13px] sm:text-sm text-gray-800
+          "
+        >
           <span>
             WeChat ID: <strong>awesometravel</strong>
           </span>
@@ -33,12 +57,11 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main nav bar (sticks below the contact bar) */}
+      {/* Main nav bar — FIXED, positioned right under contact strip */}
       <header
-        className={`sticky top-8 z-40 backdrop-blur-md border-b transition ${
-          scrolled ? "bg-white shadow" : "bg-white/80"
-        }`}
-        data-aos="fade-down"
+        ref={mainRef}
+        className="fixed left-0 right-0 z-40 bg-white border-b"
+        style={{ top: contactH }} // dynamic offset = contact strip height
       >
         <div className="container flex items-center justify-between py-3">
           <Link href="/" className="font-extrabold flex items-center gap-2">
@@ -61,6 +84,9 @@ export default function Navbar() {
           </nav>
         </div>
       </header>
+
+      {/* Spacer so content doesn't slide under the fixed bars */}
+      <div style={{ height: contactH + mainH }} />
     </>
   );
 }
