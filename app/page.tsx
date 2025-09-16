@@ -127,20 +127,20 @@ export default function HomePage() {
     {
       title:
         'Tour 1: From Colony to Nation: Civic District Walk (4 Hours)',
-      price: 'From S$89',
+      price: 'From S$60',
       desc: "Step into the Civic District, where grand landmarks and the Singapore River reveal the nation’s journey from colony to modern city. Once a bustling port alive with merchants and migrants, this area today showcases a blend of history, heritage and vibrant city life. Walk past the National Gallery and the Padang, stand on the very ground where independence was declared, and follow the river that shaped the dreams of traders and settlers. The tour ends at the iconic Merlion Park, where Singapore’s story comes full circle against a stunning waterfront skyline.",
       img: 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?q=80&w=1200&auto=format&fit=crop',
     },
     {
       title:
         'Tour 2: Colours of Heritage: Chinatown, Little India & Kampong Glam (4 hours)',
-      price: 'From S$99',
+      price: 'From S$60',
       desc: "Experience Singapore’s vibrant multicultural heritage in this immersive 4-hour walk. Journey through Chinatown, home to century old temples and traditional shophouses; Kampong Glam, where the golden domes of Sultan Mosque rise above colourful textile streets and street art; and Little India, alive with spices, flowers, and festivals. Along the way, discover how Chinese, Malay, and Indian communities shaped Singapore’s identity, and capture the vibrant colours and flavours of these living cultural districts.",
       img: 'https://images.unsplash.com/photo-1542367597-8849eb47a6ee?q=80&w=1200&auto=format&fit=crop',
     },
     {
       title: 'Tour 3: Instagrammable Moments: Fort Canning Walk (4 hours)',
-      price: 'From S$95',
+      price: 'From S$60',
       desc: "Blending history with Instagram-worthy sights, this 4-hour walking tour takes you through some of Singapore’s most photogenic spots. Begin at Old Hill Police Station before heading to Fort Canning Park, a green hill rich with colonial and wartime stories. Descend into the famous Tree Tunnel and spiral staircase, one of the city’s top photo locations. Next, head to Emerald Hill to admire colourful Peranakan shophouses. The walk combines storytelling with stunning backdrops — perfect for those who want to uncover history while capturing unforgettable photos of the Lion City.",
       img: 'https://images.unsplash.com/photo-1533574597035-1ffeba0d4bce?q=80&w=1200&auto=format&fit=crop',
     },
@@ -189,37 +189,49 @@ export default function HomePage() {
       </section>
 
       {/* WHY US */}
-      <section id="why" className="section section-alt">
-        <div className="container">
-          <header className="section-head">
-            <h2 className="text-2xl sm:text-3xl font-extrabold">
-              Why travel with us?
-            </h2>
-            <p className="muted">
-              Reliable support from first message to final drop-off.
-            </p>
-          </header>
-          <div className="grid grid-cols-12 gap-4">
-            {[
-              ['🎧', 'Licensed Local Guides', 'Certified pros who love sharing Singapore’s stories.'],
-              ['🕒', 'Time-Smart Routing', 'Reduce waiting, backtracking, and fatigue.'],
-              ['💬', 'Clear Communication', 'WhatsApp briefing, multilingual options, reminders.'],
-              ['🔁', 'Flexible Policies', 'Free rescheduling up to 48 hours before start.'],
-            ].map(([icon, title, desc], i) => (
-              <div
-                key={i}
-                className="col-span-12 md:col-span-6 lg:col-span-3 card"
-              >
-                <div className="card-body">
-                  <div className="text-xl mb-2">{icon}</div>
-                  <h3 className="font-bold">{title}</h3>
-                  <p className="muted">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+<section id="why" className="section section-alt">
+  <div className="container max-w-3xl">
+    <header className="section-head mb-6">
+      <h2 className="text-2xl sm:text-3xl font-extrabold">
+        Why Choose Us?
+      </h2>
+    </header>
+    <div className="prose prose-lg text-gray-700 space-y-4">
+      <p>
+        At <strong>Awesome Travel & Tour</strong>, we may be a new name in the travel industry, 
+        but our passion for travel is lifelong. To us, travel is more than just a holiday – 
+        it is a lifestyle choice, a chance to refresh one’s spirit, and a way to find 
+        new motivation when life feels tough. We believe that everyone, regardless of age, 
+        deserves the joy of discovering the world.
+      </p>
+      <p>
+        The inspiration to start this agency came from my own family. When my parents 
+        wanted to visit their ancestral hometown in China, I realised how meaningful such 
+        journeys are for seniors – yet how difficult it can be for their children, busy 
+        with careers and family commitments, to accompany them. That’s when I decided to 
+        dedicate part of my agency to serving senior travellers, creating safe, thoughtful, 
+        and well-planned tours that allow them to travel with confidence and peace of mind.
+      </p>
+      <p>
+        But our love for travel doesn’t stop there. As a Singaporean born and bred, I am 
+        equally passionate about sharing my home with visitors from around the world. 
+        Many say Singapore is small and has little to offer – but join us on one of our 
+        4-hour walking tours, and you’ll see how every corner has a story. With our local 
+        guides, you’ll discover hidden gems, cultural tales, and living history that 
+        turns stone and brick into experiences that truly come alive.
+      </p>
+      <p>
+        Why choose <strong>Awesome Travel & Tour</strong>? Because we believe travel is always 
+        better with a guide who cares. With a guide, every sight becomes more meaningful, 
+        and every step of your journey turns into a story worth remembering.
+      </p>
+      <p className="font-semibold text-black">
+        Awesome Travel & Tour – Because Every Journey Deserves Care.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* FAQ */}
       <section id="faq" className="section">
