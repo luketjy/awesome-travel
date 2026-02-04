@@ -118,11 +118,7 @@ function ContactModal({
           Call: {phoneDisplay}
         </a>
 
-        {/* NEW: Email button */}
-        <a
-          className="btn w-full px-4 py-2 text-center"
-          href={mailtoHref}
-        >
+        <a className="btn w-full px-4 py-2 text-center" href={mailtoHref}>
           Email: {email}
         </a>
 
@@ -135,14 +131,13 @@ function ContactModal({
         </button>
 
         <p className="text-sm text-gray-600">
-          Tip: WeChat usually can’t open a direct chat link from a website, so copying the ID is
-          the easiest way.
+          Tip: WeChat usually can’t open a direct chat link from a website, so
+          copying the ID is the easiest way.
         </p>
       </div>
     </Modal>
   );
 }
-
 
 export default function Navbar() {
   const contactRef = useRef<HTMLDivElement | null>(null);
@@ -152,6 +147,15 @@ export default function Navbar() {
   const [mainH, setMainH] = useState(0);
 
   const [contactOpen, setContactOpen] = useState(false);
+
+  // NEW: Book dropdown state
+  const [bookOpen, setBookOpen] = useState(false);
+
+  // Pelago tour links
+  const TOUR_1 =
+    "https://www.pelago.com/en-SG/activity/plu5zwrw8-sg-culture-little-india-heritage-walking-tour-2h-singapore/";
+  const TOUR_2 =
+    "https://www.pelago.com/en-SG/activity/pzh00oysf-sg-culture-awesome-chinatown-heritage-walking-tour-two-hour-singapore/";
 
   // Measure heights (on load + resize) so the second bar sits right below the first
   useLayoutEffect(() => {
@@ -167,6 +171,22 @@ export default function Navbar() {
       window.removeEventListener("orientationchange", measure);
     };
   }, []);
+
+  // Close book dropdown when clicking anywhere outside it
+  useLayoutEffect(() => {
+    if (!bookOpen) return;
+
+    const onDocClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      // if click is inside the dropdown container, do nothing
+      if (target.closest("[data-book-dropdown]")) return;
+      setBookOpen(false);
+    };
+
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, [bookOpen]);
 
   return (
     <>
@@ -230,7 +250,44 @@ export default function Navbar() {
               FAQ
             </a>
 
-            {/* REPLACED BOOK BUTTON */}
+            {/* NEW: Book dropdown button */}
+            <div className="relative" data-book-dropdown>
+              <button
+                type="button"
+                className="btn btn-outline px-4 py-2"
+                onClick={(e) => {
+                  e.stopPropagation(); // prevents immediate outside-click close
+                  setBookOpen((v) => !v);
+                }}
+              >
+                Book
+              </button>
+
+              {bookOpen && (
+                <div className="absolute right-0 mt-2 w-80 rounded-xl border bg-white shadow-lg overflow-hidden">
+                  <a
+                    href={TOUR_1}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block px-4 py-3 hover:bg-gray-50"
+                    onClick={() => setBookOpen(false)}
+                  >
+                    Little India Heritage Walking Tour (2h)
+                  </a>
+                  <a
+                    href={TOUR_2}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block px-4 py-3 hover:bg-gray-50"
+                    onClick={() => setBookOpen(false)}
+                  >
+                    Chinatown Heritage Walking Tour (2h)
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Contact button */}
             <button
               type="button"
               className="btn btn-cta px-4 py-2"

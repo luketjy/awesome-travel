@@ -85,7 +85,9 @@ function ContactModal({
     ? `Hi Awesome Travel & Tour! I'm interested in: ${contextTitle}`
     : "Hi Awesome Travel & Tour! I'd like to ask about your tours.";
 
-  const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(message)}`;
+  const waHref = `https://wa.me/${phoneDigits}?text=${encodeURIComponent(
+    message
+  )}`;
 
   const emailSubject = contextTitle
     ? `Tour Enquiry - ${contextTitle}`
@@ -135,7 +137,6 @@ Thanks!`;
           Call: {phoneDisplay}
         </a>
 
-        {/* NEW: Email */}
         <a className="btn w-full px-4 py-2 text-center" href={mailtoHref}>
           Email: {email}
         </a>
@@ -157,15 +158,58 @@ Thanks!`;
   );
 }
 
+/** NEW: Book modal (Pelago links) */
+function BookModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const TOUR_1 =
+    "https://www.pelago.com/en-SG/activity/plu5zwrw8-sg-culture-little-india-heritage-walking-tour-2h-singapore/";
+  const TOUR_2 =
+    "https://www.pelago.com/en-SG/activity/pzh00oysf-sg-culture-awesome-chinatown-heritage-walking-tour-two-hour-singapore/";
+
+  return (
+    <Modal open={open} onClose={onClose} title="Book on Pelago">
+      <div className="space-y-3">
+        <a
+          className="btn btn-cta w-full px-4 py-2 text-center"
+          href={TOUR_1}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Book: Little India Heritage Walking Tour (2h)
+        </a>
+
+        <a
+          className="btn btn-cta w-full px-4 py-2 text-center"
+          href={TOUR_2}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Book: Chinatown Heritage Walking Tour (2h)
+        </a>
+
+        <p className="text-sm text-gray-600">
+          You’ll be redirected to Pelago to complete your booking.
+        </p>
+      </div>
+    </Modal>
+  );
+}
 
 function HeroCarousel({
   tours,
   onSelect,
   onContact,
+  onBook,
 }: {
   tours: any[];
   onSelect: (t: any) => void;
   onContact: (contextTitle?: string) => void;
+  onBook: () => void;
 }) {
   const [index, setIndex] = useState(0);
   const count = tours.length;
@@ -176,7 +220,6 @@ function HeroCarousel({
   return (
     <div className="relative w-full overflow-hidden">
       <div className="relative h-[70vh] flex items-center justify-center text-white">
-        {/* background image should NOT catch taps */}
         <Image
           src={active.img}
           alt={active.title}
@@ -185,15 +228,15 @@ function HeroCarousel({
           draggable={false}
           className="object-cover pointer-events-none select-none z-0"
         />
-        {/* overlay should NOT catch taps */}
         <div className="absolute inset-0 bg-black/50 pointer-events-none z-0" />
 
-        {/* content sits on top */}
         <div className="relative z-20 max-w-2xl p-6 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">
             {active.title}
           </h2>
-          <p className="mb-6 line-clamp-3 text-lg text-white/90">{active.desc}</p>
+          <p className="mb-6 line-clamp-3 text-lg text-white/90">
+            {active.desc}
+          </p>
           <div className="flex justify-center gap-3 flex-wrap">
             <button
               type="button"
@@ -203,7 +246,15 @@ function HeroCarousel({
               See more
             </button>
 
-            {/* REPLACED BOOK BUTTON */}
+            {/* NEW: Book button */}
+            <button
+              type="button"
+              className="btn btn-outline px-4 py-2"
+              onClick={onBook}
+            >
+              Book
+            </button>
+
             <button
               type="button"
               className="btn btn-outline px-4 py-2"
@@ -219,7 +270,6 @@ function HeroCarousel({
         </div>
       </div>
 
-      {/* Chevron controls (Font Awesome) */}
       <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-6 z-10">
         <button
           onClick={goPrev}
@@ -263,17 +313,22 @@ export default function HomePage() {
   const openTour = (t: (typeof tours)[number]) => setSelected(t);
   const closeTour = () => setSelected(null);
 
-  // Contact modal state (shared for hero + tour modal)
+  // Contact modal state
   const [contactOpen, setContactOpen] = useState(false);
-  const [contactContextTitle, setContactContextTitle] = useState<string | undefined>(
-    undefined
-  );
+  const [contactContextTitle, setContactContextTitle] = useState<
+    string | undefined
+  >(undefined);
 
   const openContact = (contextTitle?: string) => {
     setContactContextTitle(contextTitle);
     setContactOpen(true);
   };
   const closeContact = () => setContactOpen(false);
+
+  // NEW: Book modal state
+  const [bookOpen, setBookOpen] = useState(false);
+  const openBook = () => setBookOpen(true);
+  const closeBook = () => setBookOpen(false);
 
   return (
     <main id="main">
@@ -282,7 +337,12 @@ export default function HomePage() {
         className="relative min-h-[62vh] flex items-center border-b overflow-hidden"
         aria-label="Hero Tours"
       >
-        <HeroCarousel tours={tours} onSelect={openTour} onContact={openContact} />
+        <HeroCarousel
+          tours={tours}
+          onSelect={openTour}
+          onContact={openContact}
+          onBook={openBook}
+        />
       </section>
 
       {/* TOURS grid below */}
@@ -324,11 +384,11 @@ export default function HomePage() {
           <div className="prose prose-lg text-gray-700 space-y-4">
             <p>
               At <strong>Awesome Travel & Tour</strong>, we may be a new name in
-              the travel industry, but our passion for travel is lifelong. To us,
-              travel is more than just a holiday – it is a lifestyle choice, a
-              chance to refresh one’s spirit, and a way to find new motivation
-              when life feels tough. We believe that everyone, regardless of age,
-              deserves the joy of discovering the world.
+              the travel industry, but our passion for travel is lifelong. To
+              us, travel is more than just a holiday – it is a lifestyle choice,
+              a chance to refresh one’s spirit, and a way to find new motivation
+              when life feels tough. We believe that everyone, regardless of
+              age, deserves the joy of discovering the world.
             </p>
             <p>
               The inspiration to start this agency came from my own family. When
@@ -415,21 +475,37 @@ export default function HomePage() {
             <div className="flex justify-between items-center gap-3 flex-wrap">
               <div className="font-semibold">{selected.price}</div>
 
-              {/* REPLACED BOOK NOW BUTTON */}
-              <button
-                type="button"
-                className="btn btn-cta px-4 py-2"
-                onClick={() => {
-                  closeTour();
-                  openContact(selected.title);
-                }}
-              >
-                Contact Us
-              </button>
+              <div className="flex gap-2">
+                {/* NEW: Book button inside tour modal */}
+                <button
+                  type="button"
+                  className="btn btn-outline px-4 py-2"
+                  onClick={() => {
+                    closeTour();
+                    openBook();
+                  }}
+                >
+                  Book
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-cta px-4 py-2"
+                  onClick={() => {
+                    closeTour();
+                    openContact(selected.title);
+                  }}
+                >
+                  Contact Us
+                </button>
+              </div>
             </div>
           </>
         )}
       </Modal>
+
+      {/* Book modal */}
+      <BookModal open={bookOpen} onClose={closeBook} />
 
       {/* Contact modal (shared) */}
       <ContactModal
