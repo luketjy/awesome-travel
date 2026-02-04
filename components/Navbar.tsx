@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 /** Reusable modal using <dialog> */
 function Modal({
@@ -207,7 +208,15 @@ export default function Navbar() {
       >
         <div className="container flex items-center justify-between py-3">
           <Link href="/" className="font-extrabold flex items-center gap-2">
-            <span>✈️</span> awesometraveltours
+            <Image
+              src="/logo.jpeg"
+              alt="AwesomeTravelTours logo"
+              width={65}
+              height={65}
+              className="rounded-sm"
+              priority
+            />
+            awesometraveltours
           </Link>
 
           <nav className="hidden sm:flex items-center gap-4">
