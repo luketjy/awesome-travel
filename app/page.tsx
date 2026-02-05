@@ -1,10 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import TourCard from "@/components/TourCard";
+import TourImageCarousel from "@/components/TourImageCarousel";
 import "./button.css";
+
+type Tour = {
+  title: string;
+  price: string;
+  desc: string;
+  img: string;
+  images: string[];
+};
 
 /** Reusable modal using <dialog> */
 function Modal({
@@ -16,7 +24,7 @@ function Modal({
   open: boolean;
   onClose: () => void;
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
@@ -158,7 +166,7 @@ Thanks!`;
   );
 }
 
-/** NEW: Book modal (Pelago links) */
+/** Book modal (Pelago links) */
 function BookModal({
   open,
   onClose,
@@ -206,8 +214,8 @@ function HeroCarousel({
   onContact,
   onBook,
 }: {
-  tours: any[];
-  onSelect: (t: any) => void;
+  tours: Tour[];
+  onSelect: (t: Tour) => void;
   onContact: (contextTitle?: string) => void;
   onBook: () => void;
 }) {
@@ -221,7 +229,7 @@ function HeroCarousel({
     <div className="relative w-full overflow-hidden">
       <div className="relative h-[70vh] flex items-center justify-center text-white">
         <Image
-          src={active.img}
+          src={active.images?.[0] ?? active.img}
           alt={active.title}
           fill
           priority
@@ -246,7 +254,6 @@ function HeroCarousel({
               See more
             </button>
 
-            {/* NEW: Book button */}
             <button
               type="button"
               className="btn btn-outline px-4 py-2"
@@ -293,12 +300,19 @@ function HeroCarousel({
 }
 
 export default function HomePage() {
-  const tours = [
+  const tours: Tour[] = [
     {
       title: "Tour 1: From Colony to Nation: Civic District Walk (4 Hours)",
       price: "From S$60",
       desc: "Step into the Civic District, where grand landmarks and the Singapore River reveal the nation’s journey from colony to modern city. Once a bustling port alive with merchants and migrants, this area today showcases a blend of history, heritage and vibrant city life. Walk past the National Gallery and the Padang, stand on the very ground where independence was declared, and follow the river that shaped the dreams of traders and settlers. The tour ends at the iconic Merlion Park, where Singapore’s story comes full circle against a stunning waterfront skyline.",
       img: "/TOUR1.jpeg",
+      images: [
+        "/TOUR1.jpeg",
+        "/TOUR1-1.jpeg",
+        "/TOUR1-2.jpeg",
+        "/TOUR1-3.jpeg",
+        "/TOUR1-4.jpeg",
+      ],
     },
     {
       title:
@@ -306,11 +320,12 @@ export default function HomePage() {
       price: "From S$60",
       desc: "Experience Singapore’s vibrant multicultural heritage in this immersive 4-hour walk. Journey through Chinatown, home to century old temples and traditional shophouses; Kampong Glam, where the golden domes of Sultan Mosque rise above colourful textile streets and street art; and Little India, alive with spices, flowers, and festivals. Along the way, discover how Chinese, Malay, and Indian communities shaped Singapore’s identity, and capture the vibrant colours and flavours of these living cultural districts.",
       img: "/TOUR2.jpeg",
+      images: ["/TOUR2.jpeg", "/TOUR2-1.jpeg", "/TOUR2-2.jpeg", "/TOUR2-3.jpeg"],
     },
   ];
 
-  const [selected, setSelected] = useState<(typeof tours)[number] | null>(null);
-  const openTour = (t: (typeof tours)[number]) => setSelected(t);
+  const [selected, setSelected] = useState<Tour | null>(null);
+  const openTour = (t: Tour) => setSelected(t);
   const closeTour = () => setSelected(null);
 
   // Contact modal state
@@ -325,10 +340,29 @@ export default function HomePage() {
   };
   const closeContact = () => setContactOpen(false);
 
-  // NEW: Book modal state
+  // Book modal state
   const [bookOpen, setBookOpen] = useState(false);
   const openBook = () => setBookOpen(true);
   const closeBook = () => setBookOpen(false);
+
+  const faqs: [string, string][] = [
+    [
+      "Do you offer hotel pickup?",
+      "Yes. If you’re staying within the central area, we can arrange convenient hotel pickup and drop-off for your tour. Otherwise, we'll suggest an easy meeting point usually near Chinatown MRT.",
+    ],
+    [
+      "Are tickets included?",
+      "Some tours include attraction tickets; others keep it flexible. See each tour for specifics.",
+    ],
+    [
+      "What about dietary needs?",
+      "We can accommodate most preferences—vegetarian, no-pork, gluten-aware—just tell us during booking.",
+    ],
+    [
+      "Do I need a visa for Singapore?",
+      "Requirements vary by nationality. Please check ICA’s official guidance.",
+    ],
+  ];
 
   return (
     <main id="main">
@@ -350,10 +384,11 @@ export default function HomePage() {
         <div className="container">
           <header className="section-head">
             <h2 className="text-2xl sm:text-3xl font-extrabold">
-              Popular Singapore Tours
+              Explore Our Tours
             </h2>
             <p className="muted">
-              Hand-picked experiences with clear timings and pricing (SGD).
+              Hand-picked experiences to discover Singapore&apos;s rich culture
+              and heritage.
             </p>
           </header>
           <div className="grid grid-cols-12 gap-4">
@@ -364,6 +399,7 @@ export default function HomePage() {
                   price={t.price}
                   desc={t.desc}
                   img={t.img}
+                  images={t.images}
                   delay={i * 80}
                   onClick={() => openTour(t)}
                 />
@@ -432,24 +468,7 @@ export default function HomePage() {
             </h2>
           </header>
           <div className="grid gap-3">
-            {[
-              [
-                "Do you offer hotel pickup?",
-                "Yes. If you’re staying within the central area, we can arrange convenient hotel pickup and drop-off for your tour. Otherwise, we'll suggest an easy meeting point usually near Chinatown MRT.",
-              ],
-              [
-                "Are tickets included?",
-                "Some tours include attraction tickets; others keep it flexible. See each tour for specifics.",
-              ],
-              [
-                "What about dietary needs?",
-                "We can accommodate most preferences—vegetarian, no-pork, gluten-aware—just tell us during booking.",
-              ],
-              [
-                "Do I need a visa for Singapore?",
-                "Requirements vary by nationality. Please check ICA’s official guidance.",
-              ],
-            ].map(([q, a]) => (
+            {faqs.map(([q, a]) => (
               <details key={q} className="card">
                 <summary className="card-body font-bold cursor-pointer">
                   {q}
@@ -465,18 +484,18 @@ export default function HomePage() {
       <Modal open={!!selected} onClose={closeTour} title={selected?.title}>
         {selected && (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={selected.img}
+            <TourImageCarousel
+              images={selected.images?.length ? selected.images : [selected.img]}
               alt={selected.title}
-              className="rounded-xl mb-4"
+              className="mb-4"
             />
+
             <p className="text-gray-700 mb-3">{selected.desc}</p>
+
             <div className="flex justify-between items-center gap-3 flex-wrap">
               <div className="font-semibold">{selected.price}</div>
 
               <div className="flex gap-2">
-                {/* NEW: Book button inside tour modal */}
                 <button
                   type="button"
                   className="btn btn-outline px-4 py-2"

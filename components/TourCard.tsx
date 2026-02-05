@@ -1,40 +1,47 @@
-// components/TourCard.tsx
-'use client';
-import Image from "next/image";
-import React from "react";
+"use client";
+
+import TourImageCarousel from "./TourImageCarousel";
 
 type TourCardProps = {
   title: string;
-  desc: string;
   price: string;
+  desc: string;
   img: string;
+  images?: string[];
   delay?: number;
-  onClick?: () => void; // NEW
+  onClick?: () => void;
 };
 
-export default function TourCard({ title, desc, price, img, delay = 0, onClick }: TourCardProps) {
+export default function TourCard({
+  title,
+  price,
+  desc,
+  img,
+  images,
+  delay = 0,
+  onClick,
+}: TourCardProps) {
+  const allImages = images && images.length ? images : [img];
+
   return (
-    <button
-      type="button"
+    <div
+      className="card overflow-hidden cursor-pointer"
       onClick={onClick}
-      className="group card text-left w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black/30"
-      data-aos="fade-up"
-      data-aos-delay={delay}
-      aria-label={`Open details for ${title}`}
+      style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="card-body p-0">
-        <div className="relative h-52 sm:h-64 w-full">
-          <Image src={img} alt={title} fill className="object-cover rounded-t-xl" />
+      <TourImageCarousel
+        images={allImages}
+        alt={title}
+        stopPropagation // important so arrows won't open modal
+      />
+
+      <div className="card-body">
+        <div className="flex items-start justify-between gap-3">
+          <h3 className="font-bold">{title}</h3>
+          <div className="font-semibold whitespace-nowrap">{price}</div>
         </div>
-        <div className="p-4">
-          <h3 className="font-bold text-lg">{title}</h3>
-          <p className="muted mt-1 line-clamp-2">{desc}</p>
-          <div className="mt-3 font-semibold">{price}</div>
-          <div className="mt-2 text-sm underline opacity-80 group-hover:opacity-100">
-            View details →
-          </div>
-        </div>
+        <p className="text-gray-700 line-clamp-3">{desc}</p>
       </div>
-    </button>
+    </div>
   );
 }

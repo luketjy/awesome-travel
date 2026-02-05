@@ -236,7 +236,7 @@ export default function Navbar() {
               className="rounded-sm"
               priority
             />
-            awesometraveltours
+            Awesome Travel & Tour
           </Link>
 
           <nav className="hidden sm:flex items-center gap-4">
