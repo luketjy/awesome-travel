@@ -75,11 +75,11 @@ export default function Footer() {
         {/* Left column */}
         <div className="col-span-12 md:col-span-6 space-y-1">
           <h4 className="font-bold">Address &amp; Contact</h4>
-          <p>Awesome Travel &amp; Tour</p>
-          <p>Pte. Ltd. (TA3929)</p>
-          <p>40 Choa Chu Kang Street</p>
-          <p>64 #19-10 Singapore</p>
-          <p>Phone: 85484800</p>
+          <p>Awesome Travel &amp; Tour Pte. Ltd.</p>
+          <p>(TA3929)</p>
+          <p>40 Choa Chu Kang Street 64</p>
+          <p>Singapore</p>
+          <p>Phone: +65 85484800</p>
         </div>
 
         {/* Right column */}
@@ -121,6 +121,8 @@ export default function Footer() {
           </li>
           <li>Please arrive at the meeting point 15 minutes before start time — our tours start punctually.</li>
           <li>Tours run rain or shine - please bring an umbrella or poncho.</li>
+          <li>Please wear comfortable walking shoes and sun protection.</li>
+          <li>Please purchase your own travel insurance.</li>
           <li>
             In the rare occasion of schedule changes, we will contact you by email and/or text as soon as we are aware.
           </li>
@@ -134,7 +136,7 @@ export default function Footer() {
           We collect and use your information solely for booking and customer support purposes.
           By providing your details, you consent to us contacting you regarding your tour.
           Data is stored securely and not shared with third parties except where required to
-          fulfil your booking or by law. For access or deletion requests, please email us.
+          fulfil your booking or by law. For access or deletion requests, please email us at awesometraveltoursingapore@gmail.com. 
         </p>
       </Modal>
     </footer>

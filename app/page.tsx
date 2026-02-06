@@ -302,9 +302,9 @@ function HeroCarousel({
 export default function HomePage() {
   const tours: Tour[] = [
     {
-      title: "Tour 1: From Colony to Nation: Civic District Walk (4 Hours)",
-      price: "From S$60",
-      desc: "Step into the Civic District, where grand landmarks and the Singapore River reveal the nation’s journey from colony to modern city. Once a bustling port alive with merchants and migrants, this area today showcases a blend of history, heritage and vibrant city life. Walk past the National Gallery and the Padang, stand on the very ground where independence was declared, and follow the river that shaped the dreams of traders and settlers. The tour ends at the iconic Merlion Park, where Singapore’s story comes full circle against a stunning waterfront skyline.",
+      title: "Tour 1: 10,000 Steps Thru' a Century (4 hours)",
+      price: "S$30 per person",
+      desc: "On this thoughtfully curated 4-hour walking tour, we take you on a journey of 10,000 steps through over a century of Singapore’s history. From lush green founding grounds to modern waterfront landmarks, this experience offers a deeper understanding of the Lion City’s past, present, and future.",
       img: "/TOUR1.jpeg",
       images: [
         "/TOUR1.jpeg",
@@ -316,12 +316,21 @@ export default function HomePage() {
     },
     {
       title:
-        "Tour 2: Colours of Heritage: Chinatown, Little India & Kampong Glam (4 hours)",
-      price: "From S$60",
-      desc: "Experience Singapore’s vibrant multicultural heritage in this immersive 4-hour walk. Journey through Chinatown, home to century old temples and traditional shophouses; Kampong Glam, where the golden domes of Sultan Mosque rise above colourful textile streets and street art; and Little India, alive with spices, flowers, and festivals. Along the way, discover how Chinese, Malay, and Indian communities shaped Singapore’s identity, and capture the vibrant colours and flavours of these living cultural districts.",
+        "Tour 2: SG Culture Awesome Chinatown Heritage Walking Tour (2 hours + Free gift)",
+      price: "S$50 per person",
+      desc:"Step back in time and uncover the living history of Singapore’s Chinatown on this engaging 2-hour heritage walking tour. Wander through bustling streets filled with colorful shophouses and sacred landmarks as your guide shares stories of the immigrants who shaped this vibrant neighborhood. From temples and mosques to traditional food stalls, you’ll get a first-hand look at the cultural blend that makes Singapore truly unique.",
       img: "/TOUR2.jpeg",
-      images: ["/TOUR2.jpeg", "/TOUR2-1.jpeg", "/TOUR2-2.jpeg", "/TOUR2-3.jpeg"],
-    },
+      images: ["/TOUR2.jpeg", "/TOUR2-1.jpeg", "/TOUR2-2.jpeg", "/TOUR2-3.jpeg"]},
+{
+      title:
+        "Tour 3: SG Culture Awesome Little India Heritage Walking Tour (2 hours)",
+      price: "S$30 per person",
+      desc:"Walk through bustling streets lined with garland shops, goldsmiths, and spice stalls, visit the Indian Heritage Centre, and admire the striking House of Tan Teng Niah. Along the way, uncover stories of migration, trade, and tradition that shaped this iconic enclave. The tour includes a visit to Tekka Centre, where you’ll learn about Singapore’s UNESCO-recognised hawker culture and savour the aromas of authentic local dishes. It’s a sensory-rich experience that brings Singapore’s living heritage to life.",
+      img: "/TOUR3.jpeg",
+      images: ["/TOUR3.jpeg", "/TOUR3-1.jpeg", "/TOUR3-2.jpeg", "/TOUR3-3.jpeg"],
+
+
+    }
   ];
 
   const [selected, setSelected] = useState<Tour | null>(null);
@@ -360,7 +369,7 @@ export default function HomePage() {
     ],
     [
       "Do I need a visa for Singapore?",
-      "Requirements vary by nationality. Please check ICA’s official guidance.",
+      "Requirements vary by nationality. Please check with the relevant embassy or consulate before traveling.",
     ],
   ];
 
@@ -437,8 +446,8 @@ export default function HomePage() {
               with confidence and peace of mind.
             </p>
             <p>
-              But our love for travel doesn’t stop there. As a Singaporean born
-              and bred, I am equally passionate about sharing my home with
+              But our love for travel doesn’t stop there. As Singaporeans born
+              and bred locally, we are passionate about sharing our home with
               visitors from around the world. Many say Singapore is small and
               has little to offer – but join us on one of our 4-hour walking
               tours, and you’ll see how every corner has a story. With our local
