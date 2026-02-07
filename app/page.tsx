@@ -365,7 +365,7 @@ This experience blends heritage, storytelling, and food—perfect for travellers
       "/TOUR4-4.jpg",
       "/TOUR4-5.jpg",
       "/TOUR4-6.jpg",
-      "/TOUR4-7.jpg",
+      "/TOUR4-7.jpeg",
       "/TOUR4-8.jpg"
     ],
   },
