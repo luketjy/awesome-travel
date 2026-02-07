@@ -300,38 +300,77 @@ function HeroCarousel({
 }
 
 export default function HomePage() {
-  const tours: Tour[] = [
-    {
-      title: "Tour 1: 10,000 Steps Thru' a Century (4 hours)",
-      price: "S$30 per person",
-      desc: "On this thoughtfully curated 4-hour walking tour, we take you on a journey of 10,000 steps through over a century of Singapore’s history. From lush green founding grounds to modern waterfront landmarks, this experience offers a deeper understanding of the Lion City’s past, present, and future.",
-      img: "/TOUR1.jpeg",
-      images: [
-        "/TOUR1.jpeg",
-        "/TOUR1-1.jpeg",
-        "/TOUR1-2.jpeg",
-        "/TOUR1-3.jpeg",
-        "/TOUR1-4.jpeg",
-      ],
-    },
-    {
-      title:
-        "Tour 2: SG Culture Awesome Chinatown Heritage Walking Tour (2 hours + Free gift)",
-      price: "S$50 per person",
-      desc:"Step back in time and uncover the living history of Singapore’s Chinatown on this engaging 2-hour heritage walking tour. Wander through bustling streets filled with colorful shophouses and sacred landmarks as your guide shares stories of the immigrants who shaped this vibrant neighborhood. From temples and mosques to traditional food stalls, you’ll get a first-hand look at the cultural blend that makes Singapore truly unique.",
-      img: "/TOUR2.jpeg",
-      images: ["/TOUR2.jpeg", "/TOUR2-1.jpeg", "/TOUR2-2.jpeg", "/TOUR2-3.jpeg"]},
-{
-      title:
-        "Tour 3: SG Culture Awesome Little India Heritage Walking Tour (2 hours)",
-      price: "S$30 per person",
-      desc:"Walk through bustling streets lined with garland shops, goldsmiths, and spice stalls, visit the Indian Heritage Centre, and admire the striking House of Tan Teng Niah. Along the way, uncover stories of migration, trade, and tradition that shaped this iconic enclave. The tour includes a visit to Tekka Centre, where you’ll learn about Singapore’s UNESCO-recognised hawker culture and savour the aromas of authentic local dishes. It’s a sensory-rich experience that brings Singapore’s living heritage to life.",
-      img: "/TOUR3.jpeg",
-      images: ["/TOUR3.jpeg", "/TOUR3-1.jpeg", "/TOUR3-2.jpeg", "/TOUR3-3.jpeg"],
+const tours: Tour[] = [
+  {
+    title: "Tour 1: 10,000 Steps Thru' a Century (4h Walking Tour)",
+    price: "S$30 per person",
+    desc: `On this thoughtfully curated 4-hour walking tour, we take you on a journey of 10,000 steps through over a century of Singapore’s history. From lush green founding grounds to modern waterfront landmarks, this experience offers a deeper understanding of the Lion City’s past, present, and future.`,
+    img: "/TOUR1.jpeg",
+    images: [
+      "/TOUR1.jpeg",
+      "/TOUR1-1.jpeg",
+      "/TOUR1-2.jpeg",
+      "/TOUR1-3.jpeg",
+      "/TOUR1-4.jpeg",
+    ],
+  },
+  {
+    title:
+      "Tour 2: SG Culture Awesome Chinatown Heritage Walking Tour (2h + Free gift)",
+    price: "S$50 per person",
+    desc: `Step back in time and uncover the living history of Singapore’s Chinatown on this engaging 2-hour heritage walking tour. Wander through bustling streets filled with colorful shophouses and sacred landmarks as your guide shares stories of the immigrants who shaped this vibrant neighborhood. From temples and mosques to traditional food stalls, you’ll get a first-hand look at the cultural blend that makes Singapore truly unique.`,
+    img: "/TOUR2.jpeg",
+    images: ["/TOUR2.jpeg", "/TOUR2-1.jpeg", "/TOUR2-2.jpeg", "/TOUR2-3.jpeg"],
+  },
+  {
+    title:
+      "Tour 3: SG Culture Awesome Little India Heritage Walking Tour (2h + admission)",
+    price: "S$30 per person",
+    desc: `Walk through bustling streets lined with garland shops, goldsmiths, and spice stalls, visit the Indian Heritage Centre, and admire the striking House of Tan Teng Niah. Along the way, uncover stories of migration, trade, and tradition that shaped this iconic enclave. The tour includes a visit to Tekka Centre, where you’ll learn about Singapore’s UNESCO-recognised hawker culture and savour the aromas of authentic local dishes. It’s a sensory-rich experience that brings Singapore’s living heritage to life.`,
+    img: "/TOUR3.jpeg",
+    images: [
+      "/TOUR3.jpeg",
+      "/TOUR3-1.jpeg",
+      "/TOUR3-2.jpeg",
+      "/TOUR3-3.jpeg",
+      "/TOUR3-4.jpeg",
+      "/TOUR3-5.jpeg",
+    ],
+  },
+  {
+    title: "Tour 4: SG Chilli Crab Combo (2h Walking Tour + 2h Cooking)",
+    price: "S$318 for 2 persons",
+    desc: `1:00 PM - 3:00 PM: 2-hour Walking Tour to learn about the history of Fort Canning Park, ending at Clarke Quay.
 
+3:00 PM - 5:00 PM: 2-hour SG Chilli Crab à la carte at Clarke Quay.
 
-    }
-  ];
+End the day with an immersive, hands-on culinary experience celebrating one of Singapore’s most iconic dishes: Singapore Chilli Crab.
+
+Led by professional chefs, this interactive workshop reveals the secrets behind the signature recipe—how sweet, savoury, and spicy flavours are carefully balanced, and how technique makes all the difference.
+
+During this 2-hour workshop, participants will:
+• Learn about the different parts of the crab and how they affect texture and flavour
+• Take part in a guided, hands-on cooking session (each participant prepares one crab with their partner)
+• Discover professional tips used in local kitchens
+• Dine on freshly prepared Chilli Crab, served with fluffy Golden Mantou
+• Enjoy a refreshing Red Cooler cocktail
+
+This experience blends heritage, storytelling, and food—perfect for travellers who want to understand Singapore not just through sights, but through taste.`,
+    img: "/TOUR4.jpeg",
+    images: [
+      "/TOUR4.jpg",
+      "/TOUR4-1.jpg",
+      "/TOUR4-2.jpg",
+      "/TOUR4-3.jpg",
+      "/TOUR4-4.jpg",
+      "/TOUR4-5.jpg",
+      "/TOUR4-6.jpg",
+      "/TOUR4-7.jpg",
+      "/TOUR4-8.jpg"
+    ],
+  },
+];
+
 
   const [selected, setSelected] = useState<Tour | null>(null);
   const openTour = (t: Tour) => setSelected(t);
