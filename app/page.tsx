@@ -303,7 +303,7 @@ export default function HomePage() {
 const tours: Tour[] = [
   {
     title: "Tour 1: 10,000 Steps Thru' a Century (4h Walking Tour)",
-    price: "S$30 per person",
+    price: "S$40 per person",
     desc: `On this thoughtfully curated 4-hour walking tour, we take you on a journey of 10,000 steps through over a century of Singapore’s history. From lush green founding grounds to modern waterfront landmarks, this experience offers a deeper understanding of the Lion City’s past, present, and future.`,
     img: "/TOUR1.jpeg",
     images: [
