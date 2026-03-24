@@ -156,6 +156,10 @@ export default function Navbar() {
     "https://www.pelago.com/en-SG/activity/plu5zwrw8-sg-culture-little-india-heritage-walking-tour-2h-singapore/";
   const TOUR_2 =
     "https://www.pelago.com/en-SG/activity/pzh00oysf-sg-culture-awesome-chinatown-heritage-walking-tour-two-hour-singapore/";
+  const TOUR_3 =
+    "https://www.pelago.com/en-SG/activity/pf7c2vo1x-ten-thousand-steps-in-a-century-singapore/";
+  const TOUR_4 =
+    "https://www.pelago.com/en-SG/activity/pzi2lasbj-awesome-sg-chilli-crab-workshop-singapore/"; // Placeholder - replace with actual Pelago link for Tour 4 when available
 
   // Measure heights (on load + resize) so the second bar sits right below the first
   useLayoutEffect(() => {
@@ -282,6 +286,24 @@ export default function Navbar() {
                     onClick={() => setBookOpen(false)}
                   >
                     Chinatown Heritage Walking Tour (2h)
+                  </a>
+                  <a
+                    href={TOUR_3}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block px-4 py-3 hover:bg-gray-50"
+                    onClick={() => setBookOpen(false)}
+                  >
+                    10,000 Steps in a Century (4h)
+                  </a>
+                  <a
+                    href={TOUR_4}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block px-4 py-3 hover:bg-gray-50"
+                    onClick={() => setBookOpen(false)}
+                  >
+                    Awesome SG Chilli Crab Workshop
                   </a>
                 </div>
               )}
